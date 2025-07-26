@@ -10,23 +10,23 @@ const BakerySlider = () => {
     const slides = [
         {
             src: "/bakeryImage/IMG-20250721-WA0004.jpg",
-            offer: "🎂 Flat 20% Off on Chocolate Cakes!",
+            // offer: "🎂 Flat 20% Off on Chocolate Cakes!",
         },
         {
             src: "/bakeryImage/IMG-20250721-WA0005.jpg",
-            offer: "🍰 Buy 1 Get 1 Free on Cupcakes!",
+            // offer: "🍰 Buy 1 Get 1 Free on Cupcakes!",
         },
         {
             src: "/bakeryImage/IMG-20250721-WA0006.jpg",
-            offer: "🎉 30% Off for First-Time Orders!",
+            // offer: "🎉 30% Off for First-Time Orders!",
         },
         {
             src: "/bakeryImage/IMG-20250721-WA0007.jpg",
-            offer: "🧁 Free Delivery on Orders Above ₹499!",
+            // offer: "🧁 Free Delivery on Orders Above ₹499!",
         },
         {
             src: "/bakeryImage/IMG-20250721-WA0008.jpg",
-            offer: "🥳 Customized Cakes Now Available!",
+            // offer: "🥳 Customized Cakes Now Available!",
         },
     ];
 

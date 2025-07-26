@@ -25,7 +25,7 @@ const BakerySlider = () => {
             // offer: "🧁 Free Delivery on Orders Above ₹499!",
         },
         {
-            src: "/bakeryImage/IMG-20250721-WA0008.jpg",
+            src: "/bakeryImage/IMG-20250721-WA0004.jpg",
             // offer: "🥳 Customized Cakes Now Available!",
         },
     ];

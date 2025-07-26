@@ -50,7 +50,7 @@ export default function Header() {
                         <input
                             type="text"
                             placeholder="Search for cakes..."
-                            className="flex-1 bg-transparent outline-none px-2 text-sm"
+                            className="flex-1 bg-transparent placeholder:text-gray-500 outline-none px-2 text-sm"
                         />
                     </div>
 

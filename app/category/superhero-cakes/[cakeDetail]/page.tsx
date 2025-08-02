@@ -31,7 +31,7 @@ const CakeDetailPage = () => {
       return;
     }
 
-    const url = `https://chat.kashishindiapvtltd.com/send-message?sender=918529670548&number=${mobile}&message=your order ${quantity} ${name} cake(s) for ${price} each.&api_key=gby8vpJ3fvdMIIHvcahaQcZ0t7ktlA`;
+    const url = `https://chat.kashishindiapvtltd.com/send-message?sender=918529670548&number=91${mobile}&message=your order ${quantity} ${name} cake(s) for ${price} each.&api_key=gby8vpJ3fvdMIIHvcahaQcZ0t7ktlA`;
 
     try {
       setLoading(true);

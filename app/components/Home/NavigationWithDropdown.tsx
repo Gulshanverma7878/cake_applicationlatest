@@ -60,7 +60,7 @@ const HeaderWithDropdowns = () => {
             {cat.name}
           </Link>
 
-          {/* Dropdown toggle */}
+          {/* Dropdown toggle */} 
           <span
             onClick={() =>
               setActiveMenu(activeMenu === cat.id ? null : cat.id)
@@ -75,7 +75,7 @@ const HeaderWithDropdowns = () => {
               <ul className="space-y-2 text-sm">
                 {cat.SubCategories.map((sub) => (
                   <li key={sub.id}>
-                    <Link href={`/category/${sub.id}`}>
+                    <Link href={`/subcategory/${sub.id}`}>
                       <span className="hover:text-pink-600 cursor-pointer block">
                         {sub.name}
                       </span>

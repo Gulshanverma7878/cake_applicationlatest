@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 
 type Product = {
@@ -26,10 +27,9 @@ const OffersSection: React.FC = () => {
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const res = await fetch(
-          `${baseUrl}/api/product/location2/offer`,
-          { cache: "no-store" }
-        );
+        const res = await fetch(`${baseUrl}/api/product/location2/offer`, {
+          cache: "no-store",
+        });
         if (!res.ok) throw new Error("Failed to fetch offers");
 
         const data = await res.json();
@@ -55,16 +55,13 @@ const OffersSection: React.FC = () => {
       <div className="px-4 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-4">
         {offers.map((offer) => {
           const imageSrc =
-            offer.image2 ||
-            offer.image1 ||
-            offer.image3 ||
-            offer.image4 ||
-            "";
+            offer.image2 || offer.image1 || offer.image3 || offer.image4 || "";
 
           return (
-            <div
+            <Link
               key={offer.id}
-              className="relative rounded-xl overflow-hidden shadow-md"
+              href={`/${offer.id}`}
+              className="relative rounded-xl overflow-hidden shadow-md group"
             >
               <Image
                 src={`${baseUrl}/${imageSrc}`}
@@ -73,19 +70,27 @@ const OffersSection: React.FC = () => {
                 height={200}
                 className="object-cover w-full h-48"
               />
-              <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded">
-                {offer.price ? `Only $${offer.price}` : ""}
-              </div>
+              {offer.price && (
+                <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded">
+                  Only ${offer.price}
+                </div>
+              )}
               <div className="absolute bottom-2 left-2 text-white">
                 <p className="text-xs">{offer.location2}</p>
                 <h3 className="text-lg font-bold">{offer.name}</h3>
               </div>
               <div className="absolute bottom-2 right-2">
-                <button className="bg-white p-1 rounded-full shadow">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = `/${offer.id}`;
+                  }}
+                  className="bg-white p-1 rounded-full shadow hover:bg-gray-100"
+                >
                   <FiPlus />
                 </button>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

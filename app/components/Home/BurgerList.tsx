@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 
 type Product = {
@@ -22,10 +23,9 @@ const BurgerList = () => {
   useEffect(() => {
     const fetchBurgers = async () => {
       try {
-        const res = await fetch(
-          `${baseUrl}/api/product/location3/first`,
-          { cache: "no-store" }
-        );
+        const res = await fetch(`${baseUrl}/api/product/location3/first`, {
+          cache: "no-store",
+        });
         if (!res.ok) throw new Error("Failed to fetch burgers");
 
         const data = await res.json();
@@ -51,9 +51,10 @@ const BurgerList = () => {
             "";
 
           return (
-            <div
+            <Link
               key={burger.id}
-              className="bg-white p-4 rounded-lg shadow flex justify-between items-center"
+              href={`/${burger.id}`} // 👈 yahan redirect ka path
+              className="bg-white p-4 rounded-lg shadow flex justify-between items-center hover:shadow-lg transition"
             >
               {/* Left Content */}
               <div className="flex-1 pr-4">
@@ -73,11 +74,17 @@ const BurgerList = () => {
                     className="rounded mb-2 object-cover"
                   />
                 )}
-                <button className="bg-black text-white p-2 rounded-full">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault(); // link click ka override
+                    window.location.href = `/${burger.id}`;
+                  }}
+                  className="bg-black text-white p-2 rounded-full"
+                >
                   <FiPlus />
                 </button>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

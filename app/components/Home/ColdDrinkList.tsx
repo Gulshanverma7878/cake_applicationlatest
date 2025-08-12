@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 
 type Product = {
@@ -46,16 +47,15 @@ const ColdDrinkList = () => {
             item.image2 || item.image1 || item.image3 || item.image4 || "";
 
           return (
-            <div
+            <Link
               key={item.id}
-              className="bg-white p-4 rounded-lg shadow flex justify-between items-center"
+              href={`/${item.id}`} // ✅ consistent path
+              className="bg-white p-4 rounded-lg shadow flex justify-between items-center hover:shadow-lg transition"
             >
               {/* Left Content */}
               <div className="flex-1 pr-4">
                 <h3 className="text-lg font-semibold mb-2">{item.name}</h3>
-                <p className="text-sm text-gray-600 mb-2">
-                  {item.description}
-                </p>
+                <p className="text-sm text-gray-600 mb-2">{item.description}</p>
                 <p className="font-bold">GBP {item.price}</p>
               </div>
 
@@ -70,11 +70,17 @@ const ColdDrinkList = () => {
                     className="rounded mb-2 object-cover"
                   />
                 )}
-                <button className="bg-black text-white p-2 rounded-full">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault(); // prevent Link default
+                    window.location.href = `/${item.id}`; // same page
+                  }}
+                  className="bg-black text-white p-2 rounded-full"
+                >
                   <FiPlus />
                 </button>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

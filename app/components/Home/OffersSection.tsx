@@ -47,7 +47,7 @@ const OffersSection: React.FC = () => {
       {/* Heading */}
       <div className="px-4 md:px-10 mt-6 mb-4 flex justify-between items-center">
         <h2 className="text-lg font-bold">
-          All Offers from McDonald’s East London
+          All New Offers
         </h2>
       </div>
 

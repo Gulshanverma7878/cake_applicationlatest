@@ -21,7 +21,7 @@ const HeaderWithDropdowns = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    fetch("https://216r2ntv-3016.inc1.devtunnels.ms/api/category")
+    fetch("https://backend.fillerbay.in/api/category")
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((err) => console.error(err));

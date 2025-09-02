@@ -56,14 +56,14 @@ export default function Header() {
 
                     {/* Icons */}
                     <div className="flex items-center gap-5 text-sm text-gray-700">
-                        <div className="flex items-center gap-1 cursor-pointer hover:text-pink-500">
+                        {/* <div className="flex items-center gap-1 cursor-pointer hover:text-pink-500">
                             <MdOutlineTrackChanges className="text-pink-500" />
                             <span>Track Order</span>
                         </div>
                         <div className="flex items-center gap-1 cursor-pointer hover:text-pink-500">
                             <FaShoppingCart className="text-pink-500" />
                             <span>Cart</span>
-                        </div>
+                        </div> */}
                         <div className="relative">
                             <button
                                 onClick={() => setShowDropdown(!showDropdown)}

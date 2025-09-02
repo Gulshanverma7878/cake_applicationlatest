@@ -1,7 +1,9 @@
 'use client'
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useParams, usePathname, useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
+
+import { useRouter } from 'next/navigation';
 
 interface Product {
   id: string;
@@ -14,45 +16,53 @@ interface Product {
   image4?: string | null;
 }
 
-const API_BASE = "https://216r2ntv-3016.inc1.devtunnels.ms/";
+const API_BASE = "https://backend.fillerbay.in";
 
 export default function CakeDetailPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [mobile, setMobile] = useState("");
-  const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: '',
+    mobile: '',
+    address: '',
+    quantity: 1,
+    product_id: '',
+    price: ''
+  });
   const [message, setMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const urldata=useParams();
-  console.log(urldata);
-  
-  
+  const params = useParams();
+  const productId = params.id as string;
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(
-          `${API_BASE}api/product/id/${urldata.id}`
-        );
-        
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
+        const res = await fetch(`${API_BASE}/api/product/id/${productId}`);
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         
         const data = await res.json();
         if (data.length > 0) {
-          setProduct(data[0]);
-          // Set first available image as default selected
-          const firstImage = [data[0].image1, data[0].image2, data[0].image3, data[0].image4]
+          const productData = data[0];
+          setProduct(productData);
+          // Set first available image
+          const firstImage = [productData.image1, productData.image2, productData.image3, productData.image4]
             .find(img => img !== null);
           if (firstImage) {
-            setSelectedImage(`${API_BASE}${firstImage.replace(/^\/+/, '')}`);
+            setSelectedImage(`${API_BASE}/${firstImage.replace(/^\/+/, '')}`);
           }
+          // Initialize form data with product info
+          setFormData(prev => ({
+            ...prev,
+            product_id: productData.id,
+            price: productData.price
+          }));
         } else {
-          setError("No products found");
+          setError("No product found");
         }
       } catch (err) {
         console.error("Error fetching product:", err);
@@ -63,40 +73,84 @@ export default function CakeDetailPage() {
     };
     
     fetchProduct();
-  }, []);
+  }, [productId]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === 'mobile' 
+        ? value.replace(/\D/g, '').slice(0, 10) 
+        : name === 'quantity'
+          ? Math.max(1, Math.min(10, Number(value) || 1))
+          : value
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setMessage("");
     
-    if (!mobile || !/^[6-9]\d{9}$/.test(mobile)) {
-      alert("Please enter a valid 10-digit mobile number");
+    // Validation
+    if (!/^[6-9]\d{9}$/.test(formData.mobile)) {
+      setMessage("Please enter a valid 10-digit mobile number");
+      setIsSubmitting(false);
       return;
     }
 
-    if (quantity < 1) {
-      alert("Quantity must be at least 1");
+    if (!formData.name.trim()) {
+      setMessage("Please enter your name");
+      setIsSubmitting(false);
       return;
     }
 
-    const url = `https://chat.kashishindiapvtltd.com/send-message?sender=918529670548&number=91${mobile}&message=Your order ${quantity} ${product?.name} cake(s) for ₹${product?.price} each.&api_key=gby8vpJ3fvdMIIHvcahaQcZ0t7ktlA`;
+    if (!formData.address.trim()) {
+      setMessage("Please enter your address");
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
-      const res = await fetch(url, { method: "GET" });
-      const response=await res.json();
+      const response = await fetch(`${API_BASE}/api/order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          mobile: formData.mobile,
+          address: formData.address,
+          quantity: formData.quantity,
+          product_id: formData.product_id,
+          price: formData.price
+        }),
+      });
 
-      console.log(response);
-      
+      if (response.ok) {
         setMessage("✅ Order placed successfully!");
+        
         setTimeout(() => {
           setShowForm(false);
-          setMobile("");
-          setQuantity(1);
+          setFormData(prev => ({
+            ...prev,
+            name: '',
+            mobile: '',
+            address: '',
+            quantity: 1
+          }));
           setMessage("");
+           router.push("/"); // Home page pe redirect karega
         }, 2000);
-     
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to place order");
+      }
     } catch (err) {
       console.error("Order submission error:", err);
-    //   setMessage("❌ Error placing order! Please try again later.");
+      setMessage("❌ Failed to place order. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -107,7 +161,7 @@ export default function CakeDetailPage() {
   // Collect all available images
   const images = [product.image1, product.image2, product.image3, product.image4]
     .filter((img): img is string => img !== null)
-    .map((img) => `${API_BASE}${img.replace(/^\/+/, '')}`);
+    .map((img) => `${API_BASE}/${img.replace(/^\/+/, '')}`);
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -133,7 +187,7 @@ export default function CakeDetailPage() {
           </div>
         </div>
 
-        {/* Right Side - Product Info and Thumbnails */}
+        {/* Right Side - Product Info */}
         <div className="md:w-1/2">
           <p className="text-2xl font-semibold text-center md:text-left">
             Price: ₹{product.price}
@@ -141,27 +195,29 @@ export default function CakeDetailPage() {
           <p className="text-gray-700 mt-4">{product.description}</p>
 
           {/* Thumbnail Gallery */}
-          <div className="mt-8">
-            <h3 className="text-lg font-semibold mb-4">More Images</h3>
-            <div className="grid grid-cols-3 gap-3">
-              {images.map((src, i) => (
-                <div
-                  key={i}
-                  className={`relative aspect-square cursor-pointer rounded-md overflow-hidden border-2 transition-all ${
-                    selectedImage === src ? 'border-blue-500' : 'border-transparent'
-                  }`}
-                  onClick={() => setSelectedImage(src)}
-                >
-                  <Image
-                    src={src}
-                    alt={`${product.name} - ${i + 1}`}
-                    fill
-                    className="object-cover hover:opacity-90"
-                  />
-                </div>
-              ))}
+          {images.length > 1 && (
+            <div className="mt-8">
+              <h3 className="text-lg font-semibold mb-4">More Images</h3>
+              <div className="grid grid-cols-3 gap-3">
+                {images.map((src, i) => (
+                  <div
+                    key={i}
+                    className={`relative aspect-square cursor-pointer rounded-md overflow-hidden border-2 transition-all ${
+                      selectedImage === src ? 'border-blue-500' : 'border-transparent'
+                    }`}
+                    onClick={() => setSelectedImage(src)}
+                  >
+                    <Image
+                      src={src}
+                      alt={`${product.name} - ${i + 1}`}
+                      fill
+                      className="object-cover hover:opacity-90"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Order Button */}
           <div className="flex justify-center md:justify-start mt-8">
@@ -181,46 +237,73 @@ export default function CakeDetailPage() {
           <div className="bg-white rounded-xl p-6 w-full max-w-md">
             <h2 className="text-xl font-semibold mb-4">Place Your Order</h2>
             
-            <form onSubmit={handleSubmit}>
-              <label className="block mb-2">
-                Mobile Number:
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block mb-1 font-medium">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block mb-1 font-medium">Mobile Number</label>
                 <input
                   type="tel"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                  className="w-full mt-1 p-2 border border-gray-300 rounded"
-                  placeholder="10-digit mobile number"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                  placeholder="10-digit number"
                   required
                 />
-              </label>
+              </div>
 
-              <label className="block mb-4">
-                Quantity:
+              <div>
+                <label className="block mb-1 font-medium">Address</label>
+                <textarea
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                  rows={3}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block mb-1 font-medium">Quantity (Max 10)</label>
                 <input
                   type="number"
+                  name="quantity"
                   min={1}
                   max={10}
-                  value={quantity}
-                  onChange={(e) => setQuantity(Math.min(10, Math.max(1, Number(e.target.value) || 1)))}
-                  className="w-full mt-1 p-2 border border-gray-300 rounded"
+                  value={formData.quantity}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded"
                   required
                 />
-              </label>
+              </div>
 
               {message && (
-                <p className={`text-sm mb-2 text-center ${
+                <p className={`text-sm text-center ${
                   message.startsWith("✅") ? "text-green-600" : "text-red-600"
                 }`}>
                   {message}
                 </p>
               )}
 
-              <div className="flex justify-between">
+              <div className="flex justify-between pt-4">
                 <button
                   type="submit"
-                  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+                  className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition-colors disabled:opacity-50"
+                  disabled={isSubmitting}
                 >
-                  Submit
+                  {isSubmitting ? 'Processing...' : 'Place Order'}
                 </button>
                 <button
                   type="button"
@@ -228,7 +311,8 @@ export default function CakeDetailPage() {
                     setShowForm(false);
                     setMessage("");
                   }}
-                  className="px-4 py-2 text-gray-600 hover:text-black transition-colors"
+                  className="px-6 py-2 text-gray-600 hover:text-black transition-colors"
+                  disabled={isSubmitting}
                 >
                   Cancel
                 </button>

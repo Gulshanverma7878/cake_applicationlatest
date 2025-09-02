@@ -153,7 +153,7 @@ export default function CakeDetailPage() {
       setIsSubmitting(false);
     }
   };
-
+  //this one is ashoka 
   if (loading) return <p className="text-center mt-6">Loading...</p>;
   if (error) return <p className="text-center mt-6 text-red-500">{error}</p>;
   if (!product) return <p className="text-center mt-6">No product found</p>;

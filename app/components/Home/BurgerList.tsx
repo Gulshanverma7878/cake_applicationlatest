@@ -40,7 +40,7 @@ const BurgerList = () => {
 
   return (
     <div className="px-4 md:px-10 mt-10">
-      <h2 className="text-xl font-bold mb-4">Burgers</h2>
+      <h2 className="text-xl font-bold mb-4">popular</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {burgers.map((burger) => {
           const imageSrc =

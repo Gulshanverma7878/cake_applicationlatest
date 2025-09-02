@@ -21,8 +21,8 @@ export default function HomePage() {
       <BakerySlider />
       <OffersSection />
       <BurgerList />
-      <FriesSection />
       <ColdDrinkList/>
+      <FriesSection />
       <div className="flex flex-col gap-8 p-6 bg-gray-100">
         <StoreInfoSection />
         <MapWithInfoBox />

@@ -15,7 +15,7 @@ interface Product {
   image4: string | null;
 }
 
-const API_BASE = "https://backend.fillerbay.in/";
+const API_BASE = "https://backend.fillerbay.shop/";
 
 const Category = () => {
   const params = useParams();

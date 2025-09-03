@@ -18,7 +18,7 @@ type Product = {
 
 const ColdDrinkList = () => {
   const [drinks, setDrinks] = useState<Product[]>([]);
-  const baseUrl = "https://backend.fillerbay.in";
+  const baseUrl = "https://backend.fillerbay.shop";
 
   useEffect(() => {
     const fetchDrinks = async () => {

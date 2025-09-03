@@ -22,7 +22,7 @@ type Product = {
 
 const OffersSection: React.FC = () => {
   const [offers, setOffers] = useState<Product[]>([]);
-  const baseUrl = "https://backend.fillerbay.in";
+  const baseUrl = "https://backend.fillerbay.shop";
 
   useEffect(() => {
     const fetchOffers = async () => {

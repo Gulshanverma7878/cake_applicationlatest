@@ -22,7 +22,7 @@ const BakerySlider = () => {
   const [slides, setSlides] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const baseUrl = "https://backend.fillerbay.in";
+  const baseUrl = "https://backend.fillerbay.shop";
 
   useEffect(() => {
     const fetchSliderProducts = async () => {

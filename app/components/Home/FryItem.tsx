@@ -18,7 +18,7 @@ type Product = {
 
 const FriesSection = () => {
   const [fries, setFries] = useState<Product[]>([]);
-  const baseUrl = "https://backend.fillerbay.in";
+  const baseUrl = "https://backend.fillerbay.shop";
 
   useEffect(() => {
     const fetchFries = async () => {

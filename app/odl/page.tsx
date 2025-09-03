@@ -14,7 +14,7 @@ interface Product {
   image4?: string | null;
 }
 
-const API_BASE = "https://backend.fillerbay.in/";
+const API_BASE = "https://backend.fillerbay.shop/";
 
 export default function CakeDetailPage() {
   const [product, setProduct] = useState<Product | null>(null);

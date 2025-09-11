@@ -15,6 +15,7 @@ interface Product {
   image3?: string | null;
   image4?: string | null;
 }
+//
 
 const API_BASE = "https://backend.fillerbay.shop";
 

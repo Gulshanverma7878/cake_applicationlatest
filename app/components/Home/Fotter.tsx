@@ -7,6 +7,7 @@ import {
   FaSnapchatGhost,
 } from "react-icons/fa";
 
+
 const Footer = () => {
   return (
     <footer className="bg-gray-100 text-gray-800">
@@ -94,20 +95,88 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom footer bar */}
-      <div className="bg-black text-white text-xs py-4 px-4">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
-          <p>© Order.uk 2024. All Rights Reserved.</p>
-          <div className="flex gap-4 mt-2 md:mt-0">
-            <span className="hover:underline cursor-pointer">
-              Privacy Policy
-            </span>
-            <span className="hover:underline cursor-pointer">Terms</span>
-            <span className="hover:underline cursor-pointer">Pricing</span>
-            <span className="hover:underline cursor-pointer">
-              Do not sell or share my personal information
-            </span>
+      {/* Bottom footer bar with animation */}
+      <div className="bg-black text-gray-300 text-xs py-8 px-4">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10 animate-fadeIn">
+          {/* Left Side - Copyright */}
+          <div className="flex-1 space-y-2">
+            <p className="text-gray-400 animate-slideInLeft">
+              © Order.uk 2024. All Rights Reserved.
+            </p>
+            <p className="animate-pulse text-2xl">
+              Website developed by{" "}
+              <span className="font-semibold text-orange-400 hover:text-orange-300 transition">
+                QuantumLoop Technology
+              </span>
+            </p>
           </div>
+
+          {/* Middle - Contact Info */}
+          <div className="flex-1 text-gray-200 space-y-1 animate-slideInUp">
+            <p className="font-semibold text-white mb-2">📍 Contact Us</p>
+            <p className="hover:text-orange-400 transition">
+              2nd Floor, JTM Mall, Jagatpura Railway Station Near, Jaipur,
+              Rajasthan 302017
+            </p>
+            <p className="hover:text-orange-400 transition">
+              📞 +91 9876514254
+            </p>
+            <p className="hover:text-orange-400 transition">
+              ✉️ quantumlooptechnology@gmail.com
+            </p>
+            <p className="hover:text-orange-400 transition">
+              🕒 Open ⋅ Closes 7 pm
+            </p>
+          </div>
+
+          {/* Right Side - Quick Links with underline animation */}
+          <div className="flex-1">
+            <p className="font-semibold text-white mb-3">🔗 Quick Links</p>
+            <div className="flex flex-col space-y-2">
+              {[
+                "Privacy Policy",
+                "Terms & Conditions",
+                "Pricing",
+                "Do not sell or share my personal information",
+              ].map((item, index) => (
+                <span
+                  key={index}
+                  className="relative group cursor-pointer text-gray-300 hover:text-orange-400 transition duration-300"
+                >
+                  {item}
+                  <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-orange-400 transition-all duration-500 group-hover:w-full"></span>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Social Icons Row */}
+        <div className="mt-6 flex justify-center gap-6 text-xl text-gray-400">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-orange-400 transition transform hover:scale-125 hover:rotate-12"
+          >
+            <i className="fab fa-facebook-f"></i>
+          </a>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-orange-400 transition transform hover:scale-125 hover:-rotate-12"
+          >
+            <i className="fab fa-instagram"></i>
+          </a>
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-orange-400 transition transform hover:scale-125 hover:rotate-12"
+          >
+            <i className="fab fa-linkedin-in"></i>
+          </a>
         </div>
       </div>
     </footer>

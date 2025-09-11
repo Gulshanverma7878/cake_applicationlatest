@@ -12,7 +12,7 @@ interface Product {
   image1: string | null;
   image2?: string | null;
   image3?: string | null;
-  image4?: string | null;
+  image4?: string | null; 
 }
 
 const API_BASE = "https://backend.fillerbay.shop";

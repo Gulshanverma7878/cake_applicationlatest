@@ -29,7 +29,7 @@ const Category = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          `${API_BASE}api/product/category_id/${id}`
+          `https://backend.fillerbay.shop/api/product/category_id/${id}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

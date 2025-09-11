@@ -9,11 +9,16 @@ import {
 } from 'react-icons/fa';
 import { MdOutlineTrackChanges } from 'react-icons/md';
 import NavigationWithDropdown from './NavigationWithDropdown';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showNavVisible, setShowNavVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+
+      const [search, setSearch] = useState("");
+  const router = useRouter();
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,6 +37,16 @@ export default function Header() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [lastScrollY]);
 
+
+    const handleSearch = () => {
+    if (search.trim() !== "") {
+      // jaayega /search page par ?q=searchText ke sath
+      router.push(`/search?q=${encodeURIComponent(search)}`);
+    }
+  };
+
+
+
     return (
         <>
             <header className="w-full fixed top-0 z-50 bg-white shadow-sm transition-all duration-300">
@@ -46,13 +61,19 @@ export default function Header() {
 
                     {/* Search */}
                     <div className="flex items-center w-full md:w-1/3 border border-pink-200 rounded-full px-3 py-1 bg-white shadow-sm mb-2 md:mb-0">
-                        <FaSearch className="text-pink-400" />
-                        <input
-                            type="text"
-                            placeholder="Search for cakes..."
-                            className="flex-1 bg-transparent placeholder:text-gray-500 outline-none px-2 text-sm"
-                        />
-                    </div>
+      <FaSearch
+        className="text-pink-400 cursor-pointer"
+        onClick={handleSearch}
+      />
+      <input
+        type="text"
+        placeholder="Search for cakes..."
+        className="flex-1 bg-transparent placeholder:text-gray-500 outline-none px-2 text-sm"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+      />
+    </div>
 
                     {/* Icons */}
                     <div className="flex items-center gap-5 text-sm text-gray-700">

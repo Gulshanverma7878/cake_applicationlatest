@@ -21,7 +21,7 @@ export default function HomePage() {
       <BakerySlider />
       <OffersSection />
       <BurgerList />
-      <ColdDrinkList/>
+      <ColdDrinkList />
       <FriesSection />
       <div className="flex flex-col gap-8 p-6 bg-gray-100">
         <StoreInfoSection />
@@ -29,7 +29,7 @@ export default function HomePage() {
       </div>
       <div className="py-8 bg-gray-100">
         <CustomerReviews />
-        <SimilarRestaurants />
+        {/* <SimilarRestaurants /> */}
       </div>
     </>
   );

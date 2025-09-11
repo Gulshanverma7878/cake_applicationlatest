@@ -37,17 +37,17 @@ const StoreInfoSection = () => {
           The restaurant will provide food-specific information upon request.
         </p>
         <p className="text-sm mb-2">
-          <strong>Phone number:</strong> +934443-43
+          <strong>Phone number:</strong> +91 73000 01015
         </p>
         <p className="text-sm">
           <strong>Website:</strong>{" "}
           <a
-            href="http://mcdonalds.uk/"
+            href="https://www.fillerbay.in/"
             className="text-blue-500 underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            http://mcdonalds.uk/
+            https://www.fillerbay.in/
           </a>
         </p>
       </div>
